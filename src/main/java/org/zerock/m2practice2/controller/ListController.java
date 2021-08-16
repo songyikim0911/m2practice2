@@ -1,6 +1,7 @@
 package org.zerock.m2practice2.controller;
 
 import lombok.extern.log4j.Log4j2;
+import org.zerock.m2practice2.dto.MemberDTO;
 import org.zerock.m2practice2.dto.MsgDTO;
 import org.zerock.m2practice2.service.MsgService;
 
@@ -17,8 +18,17 @@ public class ListController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        HttpSession session = request.getSession();
+        Object memberObj = session.getAttribute("member");
 
-        String user="aa";
+        if(memberObj==null){
+            response.sendRedirect("/login");
+            return;
+        }
+
+        MemberDTO memberDTO = (MemberDTO)memberObj;
+
+        String user = memberDTO.getMid();
 
         Map<String, List<MsgDTO>> result = MsgService.INSTANCE.getList(user);
 

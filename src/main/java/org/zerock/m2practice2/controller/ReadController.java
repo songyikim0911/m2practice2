@@ -13,6 +13,17 @@ public class ReadController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        //로그인 체크 로직
+        HttpSession session = request.getSession();
+        Object memberObj = session.getAttribute("member");
+
+        //로그인 관련 정보 없음 - 로그인 안한 사용자.
+        if(memberObj == null){
+            response.sendRedirect("/login");
+            return;//반환하는 키워드가 아님
+        }
+
+
         Long mno = Long.parseLong(request.getParameter("mno"));
 
         MsgDTO msgDTO = MsgService.INSTANCE.read(mno);
