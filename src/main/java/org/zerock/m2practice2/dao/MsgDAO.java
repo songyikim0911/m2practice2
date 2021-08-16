@@ -28,7 +28,22 @@ public enum MsgDAO {
             "  whom = ? or who =? \n" +
             "order by kind asc, mno desc";
 
+    private static final String SQL_DELETE = "delete from tbl_msg where mno=? and who=?";
 
+
+    public void delete(Long mno, String who) throws RuntimeException{
+        new JdbcTemplate(){
+            @Override
+            protected void execute() throws Exception {
+
+                preparedStatement = connection.prepareStatement(SQL_DELETE);
+                preparedStatement.setLong(1,mno);
+                preparedStatement.setString(2, who);
+                preparedStatement.executeUpdate();
+            }
+        }.makeAll();
+
+    }
 
     public void insert(MsgDTO msgDTO) throws RuntimeException{
         new JdbcTemplate(){

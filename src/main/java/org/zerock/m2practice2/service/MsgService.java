@@ -12,6 +12,11 @@ import java.util.Map;
 public enum MsgService {
     INSTANCE;
 
+    public void remove(Long mno, String who) throws RuntimeException{
+        log.info("service remove...." + mno, who);
+        MsgDAO.INSTANCE.delete(mno, who);
+    }
+
     public void register(MsgDTO msgDTO) throws RuntimeException{
         log.info("service register..." +msgDTO);
         MsgDAO.INSTANCE.insert(msgDTO);
